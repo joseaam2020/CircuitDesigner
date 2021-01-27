@@ -45,6 +45,19 @@ botonDisplay.fill((224,224,224))
 botonSimular = pygame.draw.rect(botonDisplay,(46,204,113),(50,25,400,50))
 texto("Simular", font30, (0,0,0), botonDisplay, botonSimular.midtop[0],botonSimular.midright[1]-10,"CENTRO")
 
+#Cargando imagenes
+img_resistencia = pygame.image.load("resistencia.png").convert()
+img_fuentePoder = pygame.image.load("FuentePoder.png").convert()
+img_resistencia.set_colorkey((255,255,255))
+img_fuentePoder.set_colorkey((255,255,255))
+
+#Creando menu de seleccion
+menuSeleccion = pygame.Surface((150,50))
+menuSeleccion.fill((210,210,210))
+menuSeleccion.blit(img_fuentePoder,(1,1))
+menuSeleccion.blit(img_resistencia, (55,11))
+
+
 #Dibujando en pantalla
 screen.blit(display, (50,0))
 screen.blit(botonDisplay, (50,300))
@@ -65,6 +78,7 @@ def revisar_colision(lista,posicion):
 
 #El ciclo principal
 running = True
+seleccionado = False
 while running:
 
     #Ciclo de eventos
@@ -72,13 +86,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.mouse.get_pos()
-            x,y = mouse_pos
-            #print(x,y)
-            x,y = [x-50,y]
-            print(x,y)
-            nodo = revisar_colision(circuit.getNodos(), (x,y))
-            print(nodo)
+            if not seleccionado:
+                mouse_pos = pygame.mouse.get_pos()
+                x,y = mouse_pos
+                #print(x,y)
+                x,y = [x-50,y]
+                print(x,y)
+                nodo = revisar_colision(circuit.getNodos(), (x,y))
+                print(nodo)
+                seleccionado = True
+                screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
+                
     pygame.display.update()
 
 pygame.display.quit()

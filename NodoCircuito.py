@@ -15,4 +15,7 @@ class NodoCircuito:
         self.radio = radio
 
     def draw_nodo(self, superficie):
-        pygame.draw.circle(superficie, (255,255,255), self.posicion, self.radio)
+        self.rect = pygame.draw.circle(superficie, (255,255,255), self.posicion, self.radio)
+
+    def get_rect(self):
+        return self.rect

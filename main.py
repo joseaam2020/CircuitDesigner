@@ -71,10 +71,15 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             x,y = mouse_pos
-            x,y=[x-display_rect.x,y-display_rect.y]
+            print(x,y)
+            x,y=[x-50,y]
+            print(x,y)
             nodo = revisar_colision(circuit.getNodos(), (x,y))
             print(nodo)
-            
+            try:
+                print(nodo.get_rect().x,nodo.get_rect().y)
+            except:
+                print("Nodo es none")
     pygame.display.update()
 
 pygame.display.quit()

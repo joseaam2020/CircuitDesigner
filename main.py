@@ -72,7 +72,6 @@ def revisar_colision(lista,posicion):
             if result:
                 return result 
         else:
-            print(lista[0].get_rect().x,lista[0].get_rect().y)
             if lista[0].rect.collidepoint(posicion):
                 return lista[0]
         return revisar_colision(lista[1:],posicion)
@@ -87,19 +86,40 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            x,y = mouse_pos
             if not seleccionado:
-                mouse_pos = pygame.mouse.get_pos()
-                x,y = mouse_pos
-                #print(x,y)
                 x,y = [x-50,y]
                 print(x,y)
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
                 print(nodo)
                 seleccionado = True
-                screen.blit(menuSeleccion,
-                            (nodo.get_rect().x,nodo.get_rect().y))
+                try:
+                    menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
+                except Exception as x:
+                    print(x)
+                    
             else:
+                try:
+                    if menu.collidepoint(mouse_pos):
+                        x,y = mouse_pos
+                        x -= menu.x
+                        n = x//50
+                        print(n)
+                        if n == 0:
+                            print("Crear fuente de poder")
+                        if n == 1:
+                            print("Crear resistencia")
+                        if n == 2:
+                            print("Crear Division")
+                except Exception as x:
+                    print(x)
+                    
                 seleccionado = False
+                screen.fill((224,224,224))
+                screen.blit(display, (50,0))
+                screen.blit(botonDisplay, (50,300))
+
                 
     pygame.display.update()
 

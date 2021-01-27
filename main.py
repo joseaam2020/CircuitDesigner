@@ -51,14 +51,17 @@ screen.blit(botonDisplay, (50,300))
 
 def revisar_colision(lista,posicion):
     if lista == []:
-        return
+        return 
     else:
         if isinstance(lista[0], list):
-            revisar_colision(lista[0], posicion)
+            result = revisar_colision(lista[0], posicion)
+            if result:
+                return result 
         else:
+            print(lista[0].get_rect().x,lista[0].get_rect().y)
             if lista[0].rect.collidepoint(posicion):
                 return lista[0]
-        revisar_colision(lista[1:],posicion)
+        return revisar_colision(lista[1:],posicion)
 
 #El ciclo principal
 running = True
@@ -71,15 +74,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             x,y = mouse_pos
-            print(x,y)
-            x,y=[x-50,y]
+            #print(x,y)
+            x,y = [x-50,y]
             print(x,y)
             nodo = revisar_colision(circuit.getNodos(), (x,y))
             print(nodo)
-            try:
-                print(nodo.get_rect().x,nodo.get_rect().y)
-            except:
-                print("Nodo es none")
     pygame.display.update()
 
 pygame.display.quit()

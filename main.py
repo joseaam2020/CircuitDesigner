@@ -56,6 +56,7 @@ menuSeleccion = pygame.Surface((150,50))
 menuSeleccion.fill((210,210,210))
 menuSeleccion.blit(img_fuentePoder,(1,1))
 menuSeleccion.blit(img_resistencia, (55,11))
+pygame.draw.line(menuSeleccion, (0,0,0),(122,5),(122,45),6)
 
 
 #Dibujando en pantalla
@@ -95,7 +96,10 @@ while running:
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
                 print(nodo)
                 seleccionado = True
-                screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
+                screen.blit(menuSeleccion,
+                            (nodo.get_rect().x,nodo.get_rect().y))
+            else:
+                seleccionado = False
                 
     pygame.display.update()
 

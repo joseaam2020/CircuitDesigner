@@ -19,3 +19,4 @@ class NodoCircuito:
 
     def get_rect(self):
         return self.rect
+    

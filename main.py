@@ -79,6 +79,7 @@ def revisar_colision(lista,posicion):
 #El ciclo principal
 running = True
 seleccionado = False
+nodo = None
 while running:
 
     #Ciclo de eventos
@@ -90,9 +91,7 @@ while running:
             x,y = mouse_pos
             if not seleccionado:
                 x,y = [x-50,y]
-                print(x,y)
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
-                print(nodo)
                 seleccionado = True
                 try:
                     menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
@@ -112,10 +111,13 @@ while running:
                             print("Crear resistencia")
                         if n == 2:
                             print("Crear Division")
+                            circuit.crear_division(nodo)
                 except Exception as x:
                     print(x)
                     
                 seleccionado = False
+                display.fill((224,224,224))
+                circuit.draw_circuit(display, 50, 50)
                 screen.fill((224,224,224))
                 screen.blit(display, (50,0))
                 screen.blit(botonDisplay, (50,300))

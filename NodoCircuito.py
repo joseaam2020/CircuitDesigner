@@ -9,14 +9,22 @@ import pygame
 #podria ser bueno poner un offset del run :v 
 
 class NodoCircuito:
-    def __init__(self, rect, posicion,radio):
-        self.rect = rect
+    def __init__(self,posicion,radio):
+        self.rect = None
         self.posicion = posicion
         self.radio = radio
+        self.divisible = False
 
     def draw_nodo(self, superficie):
         self.rect = pygame.draw.circle(superficie, (255,255,255), self.posicion, self.radio)
 
     def get_rect(self):
         return self.rect
+
+    def get_divisible(self):
+        return self.divisible
+
+    def set_divisible(self,divisible):
+        self.divisible = divisible
+        
     

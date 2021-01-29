@@ -150,8 +150,6 @@ while running:
                                 mouse_pos = pygame.mouse.get_pos()
                                 x,y = mouse_pos
                                 x,y = [x-200,y-100]
-                                print(x,y)
-                                print(boton1.x,boton1.y)
                                 print(boton1.collidepoint(x,y))
                                 if boton1.collidepoint(x,y):
                                     if aceptar == 1:
@@ -172,19 +170,25 @@ while running:
                         pygame.display.update()
 
                     #Poniendo valores a componentes
-                    if fuentePoder:
-                        fuentePoder.set_nombre(contenido1)
-                        fuentePoder.set_valor(int(contenido2))
-                    if resistencia:
-                        resistencia.set_nombre(contenido1)
-                        resistencia.set_valor(int(contenido2))
+                    if cambio:
+                        if fuentePoder:
+                            fuentePoder.set_nombre(contenido1)
+                            fuentePoder.set_valor(int(contenido2))
+                        if resistencia:
+                            resistencia.set_nombre(contenido1)
+                            resistencia.set_valor(int(contenido2))
+
 
                     #Quitando menu
                     display.fill((224,224,224))
                     circuit.draw_circuit(display, 50, 50)
                     screen.fill((224,224,224))
                     screen.blit(display, (50,0))
-                    screen.blit(botonDisplay, (50,300)) 
+                    screen.blit(botonDisplay, (50,300))
+
+                    for fuentePoder in circuit.getFuentesPoder():
+                        print(fuentePoder.get_nombre())
+                        print(fuentePoder.get_valor())
 
                     
             else:

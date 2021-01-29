@@ -67,6 +67,10 @@ pygame.draw.line(menuSeleccion, (0,0,0),(122,5),(122,45),6)
 screen.blit(display, (50,0))
 screen.blit(botonDisplay, (50,300))
 
+#revisar_colision(lista,posicion)
+#E: una lista de objetos con rectangulos y una posicion (x,y)
+#S: se retorna el primer rectangulo que colisione con la posicion
+#R: - 
 def revisar_colision(lista,posicion):
     if lista == []:
         return 
@@ -93,18 +97,22 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             x,y = mouse_pos
-            if not seleccionado:
+            
+            if not seleccionado: #Si no hay nada seleccionado, se revisan colisiones
                 x,y = [x-50,y]
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
                 resistencia = revisar_colision(circuit.getResistencias(),(x,y))
                 fuentePoder = revisar_colision(circuit.getFuentesPoder(),(x,y))
-                if nodo:
+
+                if nodo and not(fuentePoder or resistencia): #Si solo hay colision con un nodo se muestra el menu que se creo en linea 58
                     seleccionado = True
                     try:
                         menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
                     except Exception as x:
                         print(x)
-                if fuentePoder or resistencia:
+                        
+                if fuentePoder or resistencia: 
+                    #Si hay colision con resistencia o fuentePoder se crea un menu para ingresar nombre y valor
                     print("Colision Fuente Poder")
 
                     #Creando Menu
@@ -122,6 +130,8 @@ while running:
                     aceptar = 1
                     contenido1 = ""
                     contenido2 = ""
+                    
+                    #Subciclo principal
                     while subRunning:
 
                         #Actualizando menu
@@ -150,7 +160,6 @@ while running:
                                 mouse_pos = pygame.mouse.get_pos()
                                 x,y = mouse_pos
                                 x,y = [x-200,y-100]
-                                print(boton1.collidepoint(x,y))
                                 if boton1.collidepoint(x,y):
                                     if aceptar == 1:
                                         aceptar = 2
@@ -189,10 +198,17 @@ while running:
                     for fuentePoder in circuit.getFuentesPoder():
                         print(fuentePoder.get_nombre())
                         print(fuentePoder.get_valor())
+                    for resistencia in circuit.getResistencias():
+                        print(resistencia.get_nombre())
+                        print(resistencia.get_valor())
 
                     
             else:
-                if menu.collidepoint(mouse_pos):
+                #Si hubo colision con nodo anteriormente (seleccionado == true)
+                # entonces se busca cual opcion se selecciona del menu de nodo
+                # Nota: el circuito se encarga de mostrar todos los cambios
+                try:
+                    if menu.collidepoint(mouse_pos):
                         x,y = mouse_pos
                         x -= menu.x
                         n = x//50
@@ -205,15 +221,13 @@ while running:
                         if n == 2:
                             print("Crear Division")
                             if nodo.get_divisible():
-                                circuit.crear_division(nodo,display)
+                                circuit.crear_division(nodo)
                             else:
                                 print("No se puede")
-                
+                except Exception as x:
+                    print(x)
 
-                #try:
-                 #   except Exception as x:
-                  #  print(x)
-                    
+                #Quitando Menu
                 seleccionado = False
                 display.fill((224,224,224))
                 circuit.draw_circuit(display, 50, 50)

@@ -1,7 +1,19 @@
 import pygame
 
-#font15 = pygame.font.SysFont('berlinsansfbdemi', 15)
+"""
+InputBox: clase que se encarga de crear editores de texto
 
+Atributos:
+font(pygame.font),
+color(color RGB *tupla*),posicion(lista 2 int),
+maxlen(int)
+
+Metodos:
+/render_box(superficie): dibuja el contenido del edito en la posicion de la superficie
+/escribir(event): recibe un event, y si se esta escribiendo en el teclado se agregan y quitan objetos a contenido
+/get_contenido(): retorna contenido como string
+/set_contenido(contenido): recibe un string y lo pone en el editor
+"""
 class InputBox():
     def __init__(self,font,color,posicion,maxlen):
         self.font = font
@@ -31,22 +43,3 @@ class InputBox():
 
     def set_contenido(self,contenido):
         self.contenido = contenido
-
-#Iniciando ventana
-#ancho_ventana=400
-#alto_ventana=480
-#window_size = (400,480)
-#screen = pygame.display.set_mode(size=window_size)
-#pygame.display.set_caption("Proyecto Programado")
-
-#ib = InputBox(font15,(0,0,0),(100,100),10)
-#
-#while True:
-
- #   screen.fill((255,255,255))
-
-    
-  #  ib.escribir()
-   # ib.render_box(screen)
-
-    #pygame.display.update()

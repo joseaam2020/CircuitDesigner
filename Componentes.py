@@ -1,5 +1,25 @@
 import pygame
 
+"""
+Resistencia:
+
+Atributos:
+valor(int),
+nombre(string),
+rect(pygame.Rect),
+*statico* img(pygame.Surface)
+
+Metodos:
+/*statico* set_img(image): recibe un pygame.Suface y lo asigna a img
+/draw_resistencia(superficie): dibuja img en la superficie
+/get_rect(): retorna self.rect
+/set_nombre(nombre): recibe un string y lo asigna a self.nombre
+/set_valor(valor): recibe un int y lo asigna a self.valor
+/get_nombre(): retorna self.nombre
+/get_valor(): retorna self.valor
+"""
+
+
 class Resistencia:
 
     img = None
@@ -34,6 +54,26 @@ class Resistencia:
 
     def get_valor(self):
         return self.valor
+
+"""
+FuentePoder:
+
+Atributos:
+valor(int),
+nombre(string),
+rect(pygame.Rect),
+*statico* img(pygame.Surface)
+
+Metodos:
+/*statico* set_img(image): recibe un pygame.Suface y lo asigna a img
+/draw_resistencia(superficie): dibuja img en la superficie
+/get_rect(): retorna self.rect
+/set_nombre(nombre): recibe un string y lo asigna a self.nombre
+/set_valor(valor): recibe un int y lo asigna a self.valor
+/get_nombre(): retorna self.nombre
+/get_valor(): retorna self.valor
+"""
+
 
 class FuentePoder:
 
@@ -72,6 +112,16 @@ class FuentePoder:
 
     def get_valor(self):
         return self.valor
+
+"""
+Division:
+
+Atributos:
+posicion_incial(int,int), posicion_final(int,int)
+
+Metodos:
+/draw_division(superficie): dibuja una linea de posicion_incial a la posicion_final en superficie
+"""
 
 class Division:
     def __init__(self,posicion_inicial,posicion_final):

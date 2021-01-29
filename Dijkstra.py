@@ -55,7 +55,7 @@ class Graph():
             sptSet[u] = True
    
             # Update dist value of the adjacent vertices  
-            # of the picked vertex only if the current  
+            # of the picked vertex only if the current
             # distance is greater than new distance and 
             # the vertex in not in the shotest path tree 
             for v in range(self.V): 

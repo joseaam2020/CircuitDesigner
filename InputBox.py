@@ -1,8 +1,6 @@
 import pygame
 
-pygame.init()
-
-font15 = pygame.font.SysFont('berlinsansfbdemi', 15)
+#font15 = pygame.font.SysFont('berlinsansfbdemi', 15)
 
 class InputBox():
     def __init__(self,font,color,posicion,maxlen):
@@ -20,14 +18,19 @@ class InputBox():
         self.superficie.blit(superficie_texto,(5,5))
         superficie.blit(superficie_texto,self.posicion)
 
-    def escribir(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    self.contenido = self.contenido[:-1]
-                else:
-                    if len(self.contenido) < self.maxlen:
-                        self.contenido += event.unicode
+    def escribir(self,event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                self.contenido = self.contenido[:-1]
+            else:
+                if len(self.contenido) < self.maxlen:
+                    self.contenido += event.unicode
+
+    def get_contenido(self):
+        return self.contenido
+
+    def set_contenido(self,contenido):
+        self.contenido = contenido
 
 #Iniciando ventana
 #ancho_ventana=400

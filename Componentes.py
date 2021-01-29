@@ -23,6 +23,18 @@ class Resistencia:
     def get_rect(self):
         return self.rect
 
+    def set_nombre(self,nombre):
+        self.nombre = nombre
+
+    def set_valor(self,valor):
+        self.valor = valor
+
+    def get_nombre(self):
+        return self.nombre
+
+    def get_valor(self):
+        return self.valor
+
 class FuentePoder:
 
     img = None
@@ -45,6 +57,21 @@ class FuentePoder:
 
     def get_rect(self):
         return self.rect
+
+    def get_rect(self):
+        return self.rect
+
+    def set_nombre(self,nombre):
+        self.nombre = nombre
+
+    def set_valor(self,valor):
+        self.valor = valor
+
+    def get_nombre(self):
+        return self.nombre
+
+    def get_valor(self):
+        return self.valor
 
 class Division:
     def __init__(self,posicion_inicial,posicion_final):

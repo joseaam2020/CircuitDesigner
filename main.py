@@ -104,36 +104,88 @@ while running:
                         menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
                     except Exception as x:
                         print(x)
-                if fuentePoder:
+                if fuentePoder or resistencia:
                     print("Colision Fuente Poder")
+
+                    #Creando Menu
                     menu = pygame.Surface((200,200))
-                    menu.fill((200,200,200))
                     txt1 = texto("Nombre:", font30, (0,0,0), menu, 25, 25, "")
                     txt2 = texto("Valor:", font30, (0,0,0), menu, 25, 50, "")
                     ib1 = InputBox(font30,(0,0,0),(25+txt1.width,25),7)
                     ib2 = InputBox(font30,(0,0,0),(25+txt2.width,50),7)
                     boton1 = pygame.Rect(50,80,100,50)
                     boton2 = pygame.Rect(50,140,100,50)
-                    pygame.draw.rect(menu, (46,204,113),boton1) #Verde
-                    pygame.draw.rect(menu, (231,76,60),boton2) #Rojo
-                    txt3 = texto("Aceptar",font30,(0,0,0),menu,boton1.x+10,boton1.y+15,"")
-                    txt4 = texto("Cancelar",font30,(0,0,0),menu,boton2.x+5,boton2.y+15,"")
-
-                    screen.blit(menu,(200,100))
                     
+                    #Creando Variables
                     subRunning = True
+                    cambio = False
+                    aceptar = 1
+                    contenido1 = ""
+                    contenido2 = ""
                     while subRunning:
 
-                        ib1.escribir()
+                        #Actualizando menu
+                        menu.fill((200,200,200))
+                        txt1 = texto("Nombre:", font30, (0,0,0), menu, 25, 25, "")
+                        txt2 = texto("Valor:", font30, (0,0,0), menu, 25, 50, "")
+                        pygame.draw.rect(menu, (46,204,113),boton1) #Verde
+                        pygame.draw.rect(menu, (231,76,60),boton2) #Rojo
+                        txt3 = texto("Aceptar",font30,(0,0,0),menu,boton1.x+10,boton1.y+15,"")
+                        txt4 = texto("Cancelar",font30,(0,0,0),menu,boton2.x+5,boton2.y+15,"")
                         ib1.render_box(menu)
-                        
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                subRunning = False
+                        ib2.render_box(menu)
 
+                        #Subciclo de eventos
+                        for event in pygame.event.get():
+
+                            #Escribiendo texto
+                            if aceptar == 1:
+                                ib1.escribir(event)
+                            else:
+                                ib2.escribir(event)
+
+                            #Recibiendo click para botones
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                print("mouse button")
+                                mouse_pos = pygame.mouse.get_pos()
+                                x,y = mouse_pos
+                                x,y = [x-200,y-100]
+                                print(x,y)
+                                print(boton1.x,boton1.y)
+                                print(boton1.collidepoint(x,y))
+                                if boton1.collidepoint(x,y):
+                                    if aceptar == 1:
+                                        aceptar = 2
+                                    else:
+                                        if ib2.contenido.isnumeric():
+                                            contenido1 = ib1.contenido
+                                            contenido2 = ib2.contenido
+                                            subRunning = False
+                                            cambio = True
+                                        else:
+                                            ib2.contenido = "Numero"         
+                                elif boton2.collidepoint(x,y):
+                                    subRunning = False
+
+                        #Actualizando Pantalla
                         screen.blit(menu,(200,100))
-                        
                         pygame.display.update()
+
+                    #Poniendo valores a componentes
+                    if fuentePoder:
+                        fuentePoder.set_nombre(contenido1)
+                        fuentePoder.set_valor(int(contenido2))
+                    if resistencia:
+                        resistencia.set_nombre(contenido1)
+                        resistencia.set_valor(int(contenido2))
+
+                    #Quitando menu
+                    display.fill((224,224,224))
+                    circuit.draw_circuit(display, 50, 50)
+                    screen.fill((224,224,224))
+                    screen.blit(display, (50,0))
+                    screen.blit(botonDisplay, (50,300)) 
+
                     
             else:
                 if menu.collidepoint(mouse_pos):

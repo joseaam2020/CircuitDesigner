@@ -1,6 +1,7 @@
 import pygame
 from Circuit import *
 from Componentes import *
+from InputBox import *
 
 #Iniciando Pygame
 pygame.init()
@@ -95,12 +96,45 @@ while running:
             if not seleccionado:
                 x,y = [x-50,y]
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
+                resistencia = revisar_colision(circuit.getResistencias(),(x,y))
+                fuentePoder = revisar_colision(circuit.getFuentesPoder(),(x,y))
                 if nodo:
                     seleccionado = True
                     try:
                         menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
                     except Exception as x:
                         print(x)
+                if fuentePoder:
+                    print("Colision Fuente Poder")
+                    menu = pygame.Surface((200,200))
+                    menu.fill((200,200,200))
+                    txt1 = texto("Nombre:", font30, (0,0,0), menu, 25, 25, "")
+                    txt2 = texto("Valor:", font30, (0,0,0), menu, 25, 50, "")
+                    ib1 = InputBox(font30,(0,0,0),(25+txt1.width,25),7)
+                    ib2 = InputBox(font30,(0,0,0),(25+txt2.width,50),7)
+                    boton1 = pygame.Rect(50,80,100,50)
+                    boton2 = pygame.Rect(50,140,100,50)
+                    pygame.draw.rect(menu, (46,204,113),boton1) #Verde
+                    pygame.draw.rect(menu, (231,76,60),boton2) #Rojo
+                    txt3 = texto("Aceptar",font30,(0,0,0),menu,boton1.x+10,boton1.y+15,"")
+                    txt4 = texto("Cancelar",font30,(0,0,0),menu,boton2.x+5,boton2.y+15,"")
+
+                    screen.blit(menu,(200,100))
+                    
+                    subRunning = True
+                    while subRunning:
+
+                        ib1.escribir()
+                        ib1.render_box(menu)
+                        
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                subRunning = False
+
+                        screen.blit(menu,(200,100))
+                        
+                        pygame.display.update()
+                    
             else:
                 if menu.collidepoint(mouse_pos):
                         x,y = mouse_pos

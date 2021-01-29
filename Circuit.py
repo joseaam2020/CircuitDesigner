@@ -139,6 +139,11 @@ class Circuit:
 
     def getNodos(self):
         return self.Nodos
-    
+
+    def getResistencias(self):
+        return self.Resistencias
+
+    def getFuentesPoder(self):
+        return self.FuentesPoder
                     
                     

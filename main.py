@@ -1,5 +1,6 @@
 import pygame
 from Circuit import *
+from Componentes import *
 
 #Iniciando Pygame
 pygame.init()
@@ -50,6 +51,8 @@ img_resistencia = pygame.image.load("resistencia.png").convert()
 img_fuentePoder = pygame.image.load("FuentePoder.png").convert()
 img_resistencia.set_colorkey((255,255,255))
 img_fuentePoder.set_colorkey((255,255,255))
+Resistencia.set_img(img_resistencia)
+FuentePoder.set_img(img_fuentePoder)
 
 #Creando menu de seleccion
 menuSeleccion = pygame.Surface((150,50))
@@ -92,28 +95,34 @@ while running:
             if not seleccionado:
                 x,y = [x-50,y]
                 nodo = revisar_colision(circuit.getNodos(), (x,y))
-                seleccionado = True
-                try:
-                    menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
-                except Exception as x:
-                    print(x)
-                    
+                if nodo:
+                    seleccionado = True
+                    try:
+                        menu = screen.blit(menuSeleccion,(nodo.get_rect().x,nodo.get_rect().y))
+                    except Exception as x:
+                        print(x)
             else:
-                try:
-                    if menu.collidepoint(mouse_pos):
+                if menu.collidepoint(mouse_pos):
                         x,y = mouse_pos
                         x -= menu.x
                         n = x//50
-                        print(n)
                         if n == 0:
                             print("Crear fuente de poder")
+                            circuit.crear_fuentePoder(nodo) 
                         if n == 1:
                             print("Crear resistencia")
+                            circuit.crear_resistencia(nodo)
                         if n == 2:
                             print("Crear Division")
-                            circuit.crear_division(nodo)
-                except Exception as x:
-                    print(x)
+                            if nodo.get_divisible():
+                                circuit.crear_division(nodo,display)
+                            else:
+                                print("No se puede")
+                
+
+                #try:
+                 #   except Exception as x:
+                  #  print(x)
                     
                 seleccionado = False
                 display.fill((224,224,224))

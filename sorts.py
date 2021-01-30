@@ -11,13 +11,10 @@ def insertionSort(arr):
                 arr[j+1] = arr[j] 
                 j -= 1
         arr[j+1] = key 
-    print(arr)
   
 # codigo de test
 arr = [10,4,6,9,8,7,1,12] 
 insertionSort(arr) 
-
-
 
 #QUICK SORT
 #funcion principal de quick sort, toma el ultimo elemento como pivote

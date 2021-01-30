@@ -6,6 +6,9 @@ class Grafo:
         self.matriz = [[None]*0 for i in range(0)]
         
     #Función para imprimir la matriz del grafo en la consola
+    #E- La matriz
+    #S- Impresión de la matriz con orden
+    #R- --
     def imprimir_matriz(self, m, texto):
         cadena = ""
 
@@ -64,13 +67,18 @@ class Grafo:
         return True
 
     #funcion para agregar aristas
+    #E - direccion de la arista y peso de si misma
+    #S - arista anexada al grafo
+    #R- -- 
     def agregar_arista(self, inicio, fin, valor, dirijida):
         if not(self.esta_en_vertices(inicio)) or not(self.esta_en_vertices(fin)):
             return False
         #no se deberian poder repetir el tag de las aristas
         self.matriz[self.vertices.index(inicio)][self.vertices.index(fin)] = valor
 
-    
+
+
+#pruebas 
 if __name__ == "__main__":
     g = Grafo()
 

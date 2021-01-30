@@ -1,18 +1,11 @@
 #INSERTION SORT
-
-# Python program for implementation of Insertion Sort 
-  
-# Function to do insertion sort 
-def insertionSort(arr): 
-  
-    # Traverse through 1 to len(arr) 
+# Funcion principal 
+def insertionSort(arr):  
     for i in range(1, len(arr)): 
   
         key = arr[i] 
   
-        # Move elements of arr[0..i-1], that are 
-        # greater than key, to one position ahead 
-        # of their current position 
+        # en base a l se dividen los elementos para hacer el sort 
         j = i-1
         while j >=0 and key < arr[j] : 
                 arr[j+1] = arr[j] 
@@ -20,7 +13,7 @@ def insertionSort(arr):
         arr[j+1] = key 
   
   
-# Driver code to test above 
+# codigo de test
 arr = [12, 11, 13, 5, 6] 
 insertionSort(arr) 
 print ("Sorted array is:") 
@@ -36,18 +29,17 @@ for i in range(len(arr)):
 # to left of pivot and all greater elements to right 
 # of pivot 
   
-  
+#funcion principal de quick sort, toma el ultimo elemento como pivote
 def partition(arr, low, high): 
-    i = (low-1)         # index of smaller element 
-    pivot = arr[high]     # pivot 
-  
+    i = (low-1)          
+    pivot = arr[high]
+    #el de arriba es el pivote
+    
     for j in range(low, high): 
   
-        # If current element is smaller than or 
-        # equal to pivot 
+        # aqui revisa el el elemento es igual al pivote
+        
         if arr[j] <= pivot: 
-  
-            # increment index of smaller element 
             i = i+1
             arr[i], arr[j] = arr[j], arr[i] 
   
@@ -67,17 +59,16 @@ def quickSort(arr, low, high):
         return arr 
     if low < high: 
   
-        # pi is partitioning index, arr[p] is now 
-        # at right place 
+        # pi es el elemento que corta, en caso de que este ordenado ya se guarda
         pi = partition(arr, low, high) 
   
-        # Separately sort elements before 
-        # partition and after partition 
+        # se hace el sort por separado para hacer el ordenamiento rápido
         quickSort(arr, low, pi-1) 
         quickSort(arr, pi+1, high) 
   
   
-# Driver code to test above 
+# codigo de prueba (tienen que ser iguales los dos o algo anda mal)
+
 arr = [10, 7, 8, 9, 1, 5] 
 n = len(arr) 
 quickSort(arr, 0, n-1) 

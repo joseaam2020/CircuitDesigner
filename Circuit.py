@@ -115,7 +115,7 @@ class Circuit:
             self.divisionLimit = (self.divisionLimit * 2) +1
             print(self.exponencial,self.divisionLimit)
         #Se crean todo los nuevos nodos(5)
-        nodoMedio = NodoCircuito((nodo.get_rect().centerx,self.rect.centery),10)
+        nodoMedio = NodoCircuito((nodo.get_rect().centerx,self.rect.centery),20)
         direccion_nodo = self.search_direccion(nodo, self.Nodos,0)
         lista_direccion = direccion_nodo.split("#")
         nodoTop1 = NodoCircuito((nodo.get_rect().x + self.length//self.exponencial,self.rect.y),20)

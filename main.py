@@ -253,6 +253,15 @@ def buscar_componente(diferencia,posicion,lista,funcion):
             return lista[0]
         else:
             return buscar_componente(diferencia,posicion,lista[1:],funcion)
+
+#buscar_resis(valor,lista)
+#E: valor int y lista de resistencias 
+#S: resistencia con valor
+#R: -
+def buscar_resis(valor,lista):
+    for ele in lista:
+        if ele.get_valor() == valor:
+            return ele.get_nombre()
         
 #El ciclo principal
 running = True
@@ -314,6 +323,29 @@ while running:
 
                 quickSort(lista_resistencias2, 0, len(lista_resistencias2)-1) 
                 print(lista_resistencias2)
+
+                botonDisplay.fill((224,224,224))
+                nombres = pygame.Surface((300,100))
+                simulando = pygame.Surface((200,100))
+                nombres.fill((224,224,224))
+                simulando.fill((224,224,224))
+
+                x = 10
+                for resistencia in lista_resistencias:
+                    ultimo = texto(buscar_resis(resistencia,circuit.getResistencias()),font15,(0,0,0),nombres,x,25,"")
+                    x += ultimo.width + 10
+
+                x = 10
+                for resistencia in lista_resistencias2:
+                    ultimo = texto(buscar_resis(resistencia,circuit.getResistencias()),font15,(0,0,0),nombres,x,50,"")
+                    x += ultimo.width + 10
+
+                texto("Simulando",font30,(0,0,0),simulando,10,25,"")
+                    
+                botonDisplay.blit(nombres,(0,0))
+                botonDisplay.blit(simulando, (300,0))
+                botonDisplay.blit(nombres,(0,0))
+                screen.blit(botonDisplay,(50,300))
                 
                 #Crear grafo A 
                 #Crear listas mayor a menor, menor a mayor de nombre J A

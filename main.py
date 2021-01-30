@@ -314,6 +314,11 @@ while running:
 
                 grafo.imprimir_matriz(grafo.matriz,True)
 
+                escribir_txt = open("netlist.txt","w")
+                escribir_txt.write(str(grafo.matriz)+'\n')
+                escribir_txt.close()
+                
+
                 for resistencia in circuit.getResistencias():
                     lista_resistencias.append(resistencia.get_valor())
                     lista_resistencias2.append(resistencia.get_valor())

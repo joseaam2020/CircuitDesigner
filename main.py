@@ -20,7 +20,7 @@ font35 = pygame.font.SysFont('berlinsansfbdemi', 35)
 font30 = pygame.font.SysFont('berlinsansfbdemi', 30)
 font15 = pygame.font.SysFont('berlinsansfbdemi', 15)
 
-#text(texto, font, color, superficie,x,y)
+    #text(texto, font, color, superficie,x,y)
 #E: un text, un tipo de font, un color(RGB),una superficie, coordenadas xy
 #S: se imprime en texto con el tipo de font y color en  la superficie, coordenadas(x,y)
 #R: - 
@@ -266,7 +266,7 @@ while running:
             x,y = mouse_pos
 
             
-            #Si se toca botom simular:
+            #Si se toca boton simular:
             if botonSimular.collidepoint((x-50),y-300):
                 #Consiguiendo lista de componentes segun posicion en circuito
                 fuente = circuit.getFuentesPoder()[0]

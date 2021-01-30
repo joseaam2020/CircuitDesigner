@@ -1,5 +1,5 @@
 import math
-
+         
 class Grafo:
     def __init__(self):
         self.vertices = []
@@ -70,11 +70,11 @@ class Grafo:
         #no se deberian poder repetir el tag de las aristas
         self.matriz[self.vertices.index(inicio)][self.vertices.index(fin)] = valor
 
-
+    
 if __name__ == "__main__":
     g = Grafo()
 
-    g.agregar_vertices("A","Fuente")
+    g.agregar_vertices(1,"Fuente")
     g.agregar_vertices("B","Resistencia")
     g.agregar_vertices("C","Resistencia")
     g.agregar_vertices("D","Resistencia")
@@ -83,8 +83,9 @@ if __name__ == "__main__":
     
 
     # Dirigido.
-    g.agregar_arista("A", "B", 5, True)
-    g.agregar_arista("A", "D", 5, True)
+    g.agregar_arista(1, "B", 5, True)
+    g.agregar_arista(1, "D", 5, True)
+    g.agregar_arista(1, "E", 2, True)
     g.agregar_arista("A", "E", 2, True)
     g.agregar_arista("B", "C", 1, True)
     g.agregar_arista("B", "E", 1, True)
@@ -93,6 +94,7 @@ if __name__ == "__main__":
     g.agregar_arista("D", "E", 3, True)
     g.agregar_arista("D", "F", 4, True)
     g.agregar_arista("E", "F", 8, True)
+
 
     g.imprimir_matriz(g.matriz, True)
 

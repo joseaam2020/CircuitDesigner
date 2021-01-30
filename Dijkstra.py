@@ -1,82 +1,85 @@
-# Python program for Dijkstra's single  
-# source shortest path algorithm. The program is  
-# for adjacency matrix representation of the graph 
-  
-# Library for INT_MAX 
-import sys 
-   
-class Graph(): 
-   
-    def __init__(self, vertices): 
-        self.V = vertices 
-        self.graph = [[0 for column in range(vertices)]  
-                    for row in range(vertices)] 
-   
-    def printSolution(self, dist): 
-        print ("Vertex tDistance from Source") 
-        for node in range(self.V): 
-            print (node, "t", dist[node]) 
-   
-    # A utility function to find the vertex with  
-    # minimum distance value, from the set of vertices  
-    # not yet included in shortest path tree 
-    def minDistance(self, dist, sptSet): 
-   
-        # Initilaize minimum distance for next node 
-        min = sys.maxsize 
-   
-        # Search not nearest vertex not in the  
-        # shortest path tree 
-        for v in range(self.V): 
-            if dist[v] < min and sptSet[v] == False: 
-                min = dist[v] 
-                min_index = v 
-   
-        return min_index 
-   
-    # Funtion that implements Dijkstra's single source  
-    # shortest path algorithm for a graph represented  
-    # using adjacency matrix representation 
-    def dijkstra(self, src): 
-   
-        dist = [sys.maxsize] * self.V 
-        dist[src] = 0
-        sptSet = [False] * self.V 
-   
-        for cout in range(self.V): 
-   
-            # Pick the minimum distance vertex from  
-            # the set of vertices not yet processed.  
-            # u is always equal to src in first iteration 
-            u = self.minDistance(dist, sptSet) 
-   
-            # Put the minimum distance vertex in the  
-            # shotest path tree 
-            sptSet[u] = True
-   
-            # Update dist value of the adjacent vertices  
-            # of the picked vertex only if the current
-            # distance is greater than new distance and 
-            # the vertex in not in the shotest path tree 
-            for v in range(self.V): 
-                if self.graph[u][v] > 0 and \ 
-                     sptSet[v] == False and \ 
-                     dist[v] > dist[u] + self.graph[u][v]: 
-                    dist[v] = dist[u] + self.graph[u][v] 
-   
-        self.printSolution(dist) 
-   
-# Driver program 
-g = Graph(9) 
-g.graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0], 
-        [4, 0, 8, 0, 0, 0, 0, 11, 0], 
-        [0, 8, 0, 7, 0, 4, 0, 0, 2], 
-        [0, 0, 7, 0, 9, 14, 0, 0, 0], 
-        [0, 0, 0, 9, 0, 10, 0, 0, 0], 
-        [0, 0, 4, 14, 10, 0, 2, 0, 0], 
-        [0, 0, 0, 0, 0, 2, 0, 1, 6], 
-        [8, 11, 0, 0, 0, 0, 1, 0, 7], 
-        [0, 0, 2, 0, 0, 0, 6, 7, 0] 
-        ]; 
-   
-g.dijkstra(0); 
+class Vertice:
+    def __init__(self, i):
+        self.ide= i
+        self.vecinos=[]
+        self.visitado = False
+        self.padre = None
+        self.distancia = float("inf")
+    def agregarVecino(self,v,p):
+        if v not in self.vecinos:
+            self.vecinos.append(v,p)
+
+class Grafica:
+    def __init__(self):
+        self.vertices = {}
+
+    def agregarVertice(self,ide):
+        if ide not in self.vertices:
+            self.vertices[ide]  = Vertice(ide)
+
+    def agregarArista(self,a,b,p):
+        if a in self.vertices and b in self.vertices:
+            self.vertices[a].agregarVecino(b,p)
+            self.vertices[b].agregarVecino(a,p)
+    
+    def camino(self,a,b):
+        camino=[]
+        actual=b
+        while actual!= None:
+            camino.insert(0,actual)
+        return [camino,self.vertices[b].distancia]
+    
+    def minimo(self,lista):
+        if len(lista)>0:
+            m = self.vertices[lista[0]].distancia
+            v = lista[0]
+            for e in lista:
+                if m>self.vertices[e].distancia:
+                    m = self.vertices[e].distancia
+                    v=e
+            return v
+            
+
+    def dijkstra(self,v):
+        if v in self.vertices:
+            self.vertices[v].distancia = 0
+            actual = v
+            noVisitados = []
+
+            for m in self.vertices:
+                if m != v:
+                    self.vertices[v].distancia = float("inf")
+                self.vertices[m].padre = None
+                noVisitados.append(m)
+
+            while len(noVisitados)>0:
+                for vecino in self.vertices[actual].vecinos:
+                    if self.vertices[vecino[0]].visitados == False:
+                        if self.vertices[actual].distancia + vecino[1] < self.vertices[vecino[0]].distancia:
+                            self.vertices[vecino[0]] = self.vertices[actual].distancia + vecino[1]
+                            self.vertices[vecino[0]].padre = actual
+                self.vertices[actual].visitados = True
+                noVisitados.remove(actual)
+
+                actual = self.minimo(noVisitados)          
+        else:
+            return False
+a = Grafica()
+a.agregarVertice(1)
+a.agregarVertice(2)
+a.agregarVertice(3)
+a.agregarVertice(4)
+a.agregarVertice(5)
+a.agregarVertice(6)
+a.agregarArista(1,6,14)
+a.agregarArista(1,2,7)
+a.agregarArista(1,3,9)
+a.agregarArista(2,3,10)
+a.agregarArista(2,4,15)
+a.agregarArista(3,4,11)
+a.agregarArista(3,6,2)
+a.agregarArista(4,5,6)
+a.agregarArista(5,6,9)
+
+a.dijkstra(1)
+

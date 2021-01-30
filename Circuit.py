@@ -90,10 +90,10 @@ class Circuit:
 
     def create_nodos(self):
         try:
-            topNodo = NodoCircuito(self.rect.midtop,10)
-            bottomNodo = NodoCircuito(self.rect.midbottom,10)
-            leftNodo = NodoCircuito(self.rect.midleft,10)
-            rightNodo = NodoCircuito(self.rect.midright,10)
+            topNodo = NodoCircuito(self.rect.midtop,20)
+            bottomNodo = NodoCircuito(self.rect.midbottom,20)
+            leftNodo = NodoCircuito(self.rect.midleft,20)
+            rightNodo = NodoCircuito(self.rect.midright,20)
             topNodo.set_divisible(True)
             bottomNodo.set_divisible(True)
             nodo = [topNodo, bottomNodo]
@@ -118,10 +118,10 @@ class Circuit:
         nodoMedio = NodoCircuito((nodo.get_rect().centerx,self.rect.centery),10)
         direccion_nodo = self.search_direccion(nodo, self.Nodos,0)
         lista_direccion = direccion_nodo.split("#")
-        nodoTop1 = NodoCircuito((nodo.get_rect().x + self.length//self.exponencial,self.rect.y),10)
-        nodoTop2 = NodoCircuito((nodo.get_rect().x - self.length//self.exponencial,self.rect.y),10)
-        nodoBottom1 = NodoCircuito((nodo.get_rect().x + self.length//self.exponencial,self.rect.y + self.rect.height),10)
-        nodoBottom2 = NodoCircuito((nodo.get_rect().x - self.length//self.exponencial,self.rect.y + self.rect.height),10)
+        nodoTop1 = NodoCircuito((nodo.get_rect().x + self.length//self.exponencial,self.rect.y),20)
+        nodoTop2 = NodoCircuito((nodo.get_rect().x - self.length//self.exponencial,self.rect.y),20)
+        nodoBottom1 = NodoCircuito((nodo.get_rect().x + self.length//self.exponencial,self.rect.y + self.rect.height),20)
+        nodoBottom2 = NodoCircuito((nodo.get_rect().x - self.length//self.exponencial,self.rect.y + self.rect.height),20)
         #Se hacen cuatro nodos divisibles
         lista = [nodoTop1,nodoTop2,nodoBottom1,nodoBottom2]
         for nodo in lista:
@@ -155,13 +155,25 @@ class Circuit:
 
     def crear_resistencia(self,nodo):
         resistencia = Resistencia(0)
-        resistencia.get_rect().center = nodo.get_rect().center
+        if nodo.get_rect().centery == self.rect.centery:
+            resistencia.set_image(pygame.transform.rotate(Resistencia.img,90))
+        else:
+            resistencia.set_image(Resistencia.img)
+        resistencia.set_rect(pygame.Rect(0,0,resistencia.get_image().get_width(),resistencia.get_image().get_height()))
+        resistencia.get_rect().center = nodo.get_rect().center 
         self.Resistencias.append(resistencia)
 
     def crear_fuentePoder(self,nodo):
         fuentePoder = FuentePoder(0)
         fuentePoder.get_rect().center = nodo.get_rect().center
-        print(fuentePoder.get_rect().center,fuentePoder.get_rect().topleft)
+        if nodo.get_rect().centery == self.rect.y:
+            fuentePoder.set_image(pygame.transform.rotate(FuentePoder.img,-90))
+        elif nodo.get_rect().centery == self.rect.y + self.width:
+            fuentePoder.set_image(pygame.transform.rotate(FuentePoder.img,90))
+        elif nodo.get_rect().center == self.rect.midright:
+            fuentePoder.set_image(pygame.transform.rotate(FuentePoder.img,180))
+        else:
+            fuentePoder.set_image(FuentePoder.img)
         self.FuentesPoder.append(fuentePoder)
 
     def getNodos(self):

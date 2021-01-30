@@ -28,7 +28,6 @@ Metodos:
 /getNodos(): retorna self.Nodos
 /getResistencias(): retorna self.Resistencias
 /getFuentesPoder(): retorna self.FuentesPoder
-
 '''
 
 

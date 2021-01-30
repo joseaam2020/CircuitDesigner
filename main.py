@@ -84,6 +84,171 @@ def revisar_colision(lista,posicion):
                 return lista[0]
         return revisar_colision(lista[1:],posicion)
 
+#clasificar_componente(lista,top,middle,bottom,maxm,mid)
+#E: una lista de objetos con rect, tres listas vacias, un maxm y mid valores de y
+#S: se retorna una lista de tres listas con elementos de la lista ingresada clasificados segun maxm y mid
+#R: -
+def clasificar_componentes(lista,top,middle,bottom,maxm,mid):
+    if lista == []:
+        return [top,middle,bottom]
+    else:
+        if isinstance(lista[0],list):
+            sublistas = clasificar_componentes(lista[0],[],[],[],maxm,mid)
+            counter = 1
+            for sublista in sublitas:
+                counter += 1 
+                for ele in sublista:
+                    if counter == 1:
+                        top.append(ele)
+                    if counter == 2:
+                        middle.append(ele)
+                    if counter == 3:
+                        bottom.append(ele)
+        else:
+            y_componente = lista[0].get_rect().centery
+            print(y_componente,maxm,mid)
+            if y_componente == maxm:
+                top.append(lista[0])
+            elif y_componente == mid:
+                middle.append(lista[0])
+            else:
+                bottom.append(lista[0])
+        return clasificar_componentes(lista[1:],top,middle,bottom,maxm,mid)
+
+#clasificar_componente(primer_comp,componente,top,middle,bottom,conexiones,circuito)
+#E: un componente, None, lista top, lista middle, lista botton, [], circuito
+#S: Todas las conexiones que se puede realizar entre los componentes del circuito, empezando por componente
+#R: -
+def hacer_conexiones(primer_comp,componente,top,middle,bottom,conexiones,circuito):
+    listas = [top,middle,bottom]
+    indice = 0
+    if primer_comp == componente:
+        return conexiones
+    else:
+        if componente == None:
+            componente = primer_comp
+
+        if componente.get_rect().center == circuito.rect.midleft:
+            #mas cerca arriba
+            der = lambda y1,y2: y1 < y2
+            newx = componente_cercano(componente.get_rect().center,top,der)
+            new = buscar_componente(newx,componente.get_rect().center,top,der)
+            print(new,"midleft")
+            conexiones.append([componente.get_nombre(),new.get_nombre()])
+            return hacer_conexiones(primer_comp,new,top,middle,bottom,conexiones,circuito)
+            
+        elif componente.get_rect().center[1] == circuito.rect.y:
+            print(componente,"up")
+            #Mas cerca derecha (arriba y abajo)
+            der = lambda y1,y2: y1 < y2
+            new1x = componente_cercano(componente.get_rect().center,top,der)
+            new2x = componente_cercano(componente.get_rect().center,middle,der)
+            if new2x and new1x:
+                new1 = buscar_componente(new1x,componente.get_rect().center,top,der)
+                new2 = buscar_componente(new2x,componente.get_rect().center,middle,der)
+                if new2.get_rect().centerx > new1.get_rect().centerx:
+                    #no hay conexion con new2
+                    conexiones.append([componente.get_nombre(),new1.get_nombre()])
+                else:
+                    #si hay conexion
+                    conexiones.append([componente.get_nombre(),new1.get_nombre()])
+                    conexiones.append([componente.get_nombre(),new2.get_nombre()])
+                return hacer_conexiones(primer_comp,new1,top,middle,bottom,conexiones,circuito)
+            elif new2x:
+                #hacer conexion
+                new2 = buscar_componente(new2x,componente.get_rect().center,middle,der)
+                conexiones.append([componente.get_nombre(),new2.get_nombre()])
+                return hacer_conexiones(primer_comp,new2,top,middle,bottom,conexiones,circuito)
+                
+        elif componente.get_rect().center == circuito.rect.midright:
+            print(componente,"right")
+            #mas cerca a la izquierda
+            izq = lambda y1,y2: y1 > y2
+            newx = componente_cercano(componente.get_rect().center,bottom,izq)
+            new = buscar_componente(newx,componente.get_rect().center,bottom,izq)
+            print(newx,new)
+            #hacer conexion
+            conexiones.append([componente.get_nombre(),new.get_nombre()])
+            return hacer_conexiones(primer_comp,new,top,middle,bottom,conexiones,circuito)
+            
+        elif componente.get_rect().center[1] == (circuito.rect.y + circuito.width):
+            print(componente,"down")
+            #mas cerca a la izquierda (arriba y abajo)
+            izq = lambda y1,y2: y1 > y2
+            new1x = componente_cercano(componente.get_rect().center,bottom,izq)
+            new2x = componente_cercano(componente.get_rect().center,middle,izq)
+            if new2x and new1x:
+                new1 = buscar_componente(new1x,componente.get_rect().center,bottom,izq)
+                new2 = buscar_componente(new2x,componente.get_rect().center,middle,izq)
+                if new2.get_rect().centerx < new1.get_rect().centerx:
+                    #no hay conexion
+                    conexiones.append([componente.get_nombre(),new1.get_nombre()])
+                else:
+                    #si hay conexion
+                    conexiones.append([componente.get_nombre(),new1.get_nombre()])
+                    conexiones.append([componente.get_nombre(),new2.get_nombre()])
+                return hacer_conexiones(primer_comp,new1,top,middle,bottom,conexiones,circuito)
+            elif new2x:
+                #hacer conexion
+                new2 = buscar_componente(new2x,componente.get_rect().center,middle,izq)
+                conexiones.append([componente.get_nombre(),new2.get_nombre()])
+                return hacer_conexiones(primer_comp,new2,top,middle,bottom,conexiones,circuito)
+        else:
+            #mas arriba (izquierda y derecha)
+            izq = lambda y1,y2: y1 > y2
+            der = lambda y1,y2: y1 < y2
+            new1x = componente_cercano(componente.get_rect().center,top,der)
+            new2x = componente_cercano(componente.get_rect().center,top,izq)
+            new1 = buscar_componente(new1x,componente.get_rect().center,top,der)
+            new2 = buscar_componente(new2x,componente.get_rect().center,top,izq)
+            #hacer conexion
+            conexiones.append([componente.get_nombre(),new1.get_nombre()])
+            conexiones.append([componente.get_nombre(),new2.get_nombre()])
+            return hacer_conexiones(new2,new1,top,middle,bottom,conexiones,circuito)
+
+#componente_cercano(posicion,listas,funcion)
+#E: posicion(x,y) del componentes al que se va a comparar, lista de componentes y una funcion
+#S: menor diferencia que se encontro entre componentes
+#R: -
+def componente_cercano(posicion,lista,funcion):
+    if lista[1:] == []:
+        if funcion(posicion[0],lista[0].get_rect().centerx):
+            return abs(lista[0].get_rect().centerx - posicion[0])
+        else:
+            return None
+    else:
+        if funcion(posicion[0],lista[0].get_rect().x):
+            return compara_menor(abs(lista[0].get_rect().centerx - posicion[0]),componente_cercano(posicion,lista[1:],funcion))
+        else:
+            return compara_menor(None,componente_cercano(posicion,lista[1:],funcion))
+        
+#compara_menor(x,y)
+#E: dos int 
+#S: el mayor de los int
+#R: -
+def compara_menor(x,y):
+    if not x:
+        return y
+    if not y:
+        return x
+    if x > y:
+        return y
+    else:
+        return x
+#buscar_componente(diferencia,posicion,lista,funcion)
+#E: diferencia(int) y una lista de componentes 
+#S: el componente con es diferencia
+#R: -
+def buscar_componente(diferencia,posicion,lista,funcion):
+    if lista == []:
+        return
+    else:
+        centerx = lista[0].get_rect().centerx
+        if abs(centerx-posicion[0]) == diferencia and funcion(posicion[0],centerx):
+            return lista[0]
+        else:
+            return buscar_componente(diferencia,posicion,lista[1:],funcion)
+        
 #El ciclo principal
 running = True
 seleccionado = False
@@ -97,6 +262,32 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             x,y = mouse_pos
+
+            
+            #Si se toca botom simular:
+            if botonSimular.collidepoint((x-50),y-300):
+                #Consiguiendo lista de componentes segun posicion en circuito
+                fuente = circuit.getFuentesPoder()[0]
+                top_components,middle_components,bottom_components = clasificar_componentes(circuit.getResistencias(),[],[],[],circuit.rect.y,circuit.rect.centery)
+                top_fuentes,middle_fuentes,bottom_fuentes = clasificar_componentes(circuit.getFuentesPoder(),[],[],[],circuit.rect.y,circuit.rect.centery)
+                for ele in top_fuentes:
+                    top_components.append(ele)
+                    
+                for ele in middle_fuentes:
+                    middle_components.append(ele)
+                    
+                for ele in bottom_fuentes:
+                    bottom_components.append(ele)
+                print(top_components,middle_components, bottom_components)
+                #Leyendo conexiones para el grafo
+                conexiones = hacer_conexiones(fuente,None,top_components,middle_components,bottom_components,[],circuit)
+                print(conexiones,"conexiones")
+
+                
+                #Crear grafo A 
+                #Crear listas mayor a menor, menor a mayor de nombre J A
+                #Enseñar tension e intensidad J
+                #Guardar grafo en archivo
             
             if not seleccionado: #Si no hay nada seleccionado, se revisan colisiones
                 x,y = [x-50,y]
@@ -234,6 +425,7 @@ while running:
                 screen.fill((224,224,224))
                 screen.blit(display, (50,0))
                 screen.blit(botonDisplay, (50,300))
+
 
                 
     pygame.display.update()

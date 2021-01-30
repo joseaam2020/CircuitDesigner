@@ -14,6 +14,7 @@ Metodos:
 /get_contenido(): retorna contenido como string
 /set_contenido(contenido): recibe un string y lo pone en el editor
 """
+
 class InputBox():
     def __init__(self,font,color,posicion,maxlen):
         self.font = font

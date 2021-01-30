@@ -7,7 +7,7 @@ def insertionSort(arr):
   
         # en base a l se dividen los elementos para hacer el sort 
         j = i-1
-        while j >=0 and key < arr[j] : 
+        while j >=0 and key > arr[j] : 
                 arr[j+1] = arr[j] 
                 j -= 1
         arr[j+1] = key 

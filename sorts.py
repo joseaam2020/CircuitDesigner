@@ -14,21 +14,14 @@ def insertionSort(arr):
   
   
 # codigo de test
-arr = [12, 11, 13, 5, 6] 
+arr = [10,4,6,9,8,7,1,12] 
 insertionSort(arr) 
-print ("Sorted array is:") 
+print ("insertion sort ordenado:") 
 for i in range(len(arr)): 
     print ("%d" %arr[i]) 
 
 
 #QUICK SORT
-    
-    # This function takes last element as pivot, places 
-# the pivot element at its correct position in sorted 
-# array, and places all smaller (smaller than pivot) 
-# to left of pivot and all greater elements to right 
-# of pivot 
-  
 #funcion principal de quick sort, toma el ultimo elemento como pivote
 def partition(arr, low, high): 
     i = (low-1)          
@@ -46,14 +39,9 @@ def partition(arr, low, high):
     arr[i+1], arr[high] = arr[high], arr[i+1] 
     return (i+1) 
   
-# The main function that implements QuickSort 
-# arr[] --> Array to be sorted, 
-# low  --> Starting index, 
-# high  --> Ending index 
   
-# Function to do Quick sort 
-  
-  
+# QUICK SORT
+#funcion principal
 def quickSort(arr, low, high): 
     if len(arr) == 1: 
         return arr 
@@ -69,9 +57,9 @@ def quickSort(arr, low, high):
   
 # codigo de prueba (tienen que ser iguales los dos o algo anda mal)
 
-arr = [10, 7, 8, 9, 1, 5] 
+arr = [10,4,6,9,8,7,1,12] 
 n = len(arr) 
 quickSort(arr, 0, n-1) 
-print("Sorted array is:") 
+print("quicksort array ordenado:") 
 for i in range(n): 
     print("%d" % arr[i])

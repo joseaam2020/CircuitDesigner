@@ -2,6 +2,8 @@ import pygame
 from Circuit import *
 from Componentes import *
 from InputBox import *
+from random import *
+from grafo import *
 
 #Iniciando Pygame
 pygame.init()
@@ -281,7 +283,22 @@ while running:
                 print(top_components,middle_components, bottom_components)
                 #Leyendo conexiones para el grafo
                 conexiones = hacer_conexiones(fuente,None,top_components,middle_components,bottom_components,[],circuit)
-                print(conexiones,"conexiones")
+                resistencias = circuit.getResistencias()
+                fuentesPoder = circuit.getFuentesPoder()
+
+                grafo = Grafo()
+
+                for resistencia in resistencias:
+                    grafo.agregar_vertices(resistencia.get_nombre(),"Resistencia")
+
+                for fuentePoder in fuentesPoder:
+                    grafo.agregar_vertices(fuentePoder.get_nombre(),"Fuente")
+
+                for conexion in conexiones:
+                    peso = randint(1,11)
+                    grafo.agregar_arista(conexion[0],conexion[1],peso,True)
+
+                grafo.imprimir_matriz(grafo.matriz,True)
 
                 
                 #Crear grafo A 

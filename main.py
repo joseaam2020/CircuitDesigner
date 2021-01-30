@@ -4,6 +4,7 @@ from Componentes import *
 from InputBox import *
 from random import *
 from grafo import *
+from sorts import *
 
 #Iniciando Pygame
 pygame.init()
@@ -68,6 +69,8 @@ pygame.draw.line(menuSeleccion, (0,0,0),(122,5),(122,45),6)
 #Dibujando en pantalla
 screen.blit(display, (50,0))
 screen.blit(botonDisplay, (50,300))
+
+
 
 #revisar_colision(lista,posicion)
 #E: una lista de objetos con rectangulos y una posicion (x,y)
@@ -285,6 +288,8 @@ while running:
                 conexiones = hacer_conexiones(fuente,None,top_components,middle_components,bottom_components,[],circuit)
                 resistencias = circuit.getResistencias()
                 fuentesPoder = circuit.getFuentesPoder()
+                lista_resistencias = []
+                lista_resistencias2 = []
 
                 grafo = Grafo()
 
@@ -300,6 +305,15 @@ while running:
 
                 grafo.imprimir_matriz(grafo.matriz,True)
 
+                for resistencia in circuit.getResistencias():
+                    lista_resistencias.append(resistencia.get_valor())
+                    lista_resistencias2.append(resistencia.get_valor())
+
+                insertionSort(lista_resistencias)
+                print(lista_resistencias)
+
+                quickSort(lista_resistencias2, 0, len(lista_resistencias2)-1) 
+                print(lista_resistencias2)
                 
                 #Crear grafo A 
                 #Crear listas mayor a menor, menor a mayor de nombre J A

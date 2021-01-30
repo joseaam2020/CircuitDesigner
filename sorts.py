@@ -7,18 +7,16 @@ def insertionSort(arr):
   
         # en base a l se dividen los elementos para hacer el sort 
         j = i-1
-        while j >=0 and key < arr[j] : 
+        while j >=0 and key > arr[j] : 
                 arr[j+1] = arr[j] 
                 j -= 1
         arr[j+1] = key 
-  
+    print(arr)
   
 # codigo de test
 arr = [10,4,6,9,8,7,1,12] 
 insertionSort(arr) 
-print ("insertion sort ordenado:") 
-for i in range(len(arr)): 
-    print ("%d" %arr[i]) 
+
 
 
 #QUICK SORT
@@ -60,6 +58,6 @@ def quickSort(arr, low, high):
 arr = [10,4,6,9,8,7,1,12] 
 n = len(arr) 
 quickSort(arr, 0, n-1) 
-print("quicksort array ordenado:") 
-for i in range(n): 
-    print("%d" % arr[i])
+
+
+
